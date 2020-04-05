@@ -1,6 +1,9 @@
 import jsonpickle
 from os import path
 from datetime import date
+from datetime import datetime
+import discord
+import globals
 
 class Birthday:
     def __init__(self, name, uid, birthdate):
@@ -13,7 +16,6 @@ birthdays = []
 bdayPath = "Birthdays.json"
 
 #Load from birthdays.json at start
-birthdays = []
 if path.exists(bdayPath):
     with open(bdayPath) as infile:
         content = infile.read()
@@ -34,3 +36,10 @@ def CheckForBirthday():
         if d.birthdate == date.today():
             return d
     return 0
+
+#add-birthday event
+async def AddBirthdayCommand(params, message):
+    AddBirthday(params[0], params[1], datetime.strptime(params[2], "%Y/%m/%d").date())
+    await message.channel.send("Birthday added!")
+    SaveBirthdays()
+globals.commands.update({"!add-birthday": AddBirthdayCommand})
