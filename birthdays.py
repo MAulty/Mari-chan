@@ -1,7 +1,9 @@
 import jsonpickle
 from os import path
 from datetime import date
-from datetime import datetime
+from datetime import datetime, timedelta
+from threading import Timer
+import time
 import discord
 import globals
 
@@ -14,6 +16,21 @@ class Birthday:
 #Properties
 birthdays = []
 bdayPath = "Birthdays.json"
+
+#Birthday checking event once a day at 8am
+x = datetime.today()
+y = x.replace(day=x.day, hour=8, minute=0) + timedelta(days=1)
+seconds = (y - x).total_seconds()
+t: Timer = None
+async def BirthdayCheck():
+    print("checking")
+    bday = CheckForBirthday()
+    print(bday)
+    if bday != None:
+        print("sending")
+        await globals.defChannel.send("Happy birthday " + bday.uid + "!!!")
+t = Timer(seconds, BirthdayCheck)
+t.start()
 
 #Load from birthdays.json at start
 if path.exists(bdayPath):
@@ -33,13 +50,25 @@ def AddBirthday(name, uid, birthdate):
 #Checks each birthday for a match, returns Birthday if matches
 def CheckForBirthday():
     for d in birthdays:
-        if d.birthdate == date.today():
+        today = date.today()
+        bd = d.birthdate
+        if bd.month == today.month and bd.day == today.day:
+            print("found")
             return d
-    return 0
+    return None
 
-#add-birthday event
+#!add-birthday event
 async def AddBirthdayCommand(params, message):
-    AddBirthday(params[0], params[1], datetime.strptime(params[2], "%Y/%m/%d").date())
-    await message.channel.send("Birthday added!")
-    SaveBirthdays()
+    try:
+        AddBirthday(params[0], params[1], datetime.strptime(params[2], "%Y/%m/%d").date())
+        await message.channel.send("Birthday added!")
+        SaveBirthdays()
+    except:
+        await message.channel.send("Birthday format: \n\t!add-birthday <Name> <User ping> <YYYY/MM/DD")
 globals.commands.update({"!add-birthday": AddBirthdayCommand})
+
+#!debug-check-bday
+async def DebugCheckBdayCommand(params, message):
+    print("message recieved")
+    await BirthdayCheck()
+globals.commands.update({"!debug-check-bday": DebugCheckBdayCommand})

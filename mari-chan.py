@@ -18,7 +18,7 @@ class MyClient(discord.Client):
             return
 
         #Command dispatching
-        if len(words) > 2 and words[0] in globals.commands:
+        if len(words) > 0 and words[0] in globals.commands:
             await globals.commands[words[0]](words[1:], message)   
 
 client = MyClient()
