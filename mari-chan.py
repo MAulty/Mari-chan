@@ -3,11 +3,13 @@ import os
 import globals
 import birthdays
 import misc
+import redditgrab
 
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
         globals.defChannel = discord.utils.get(client.get_all_channels(), guild__name='kitty kawk', name='kitty-quarantine')
+        globals.defMemeChannel = discord.utils.get(client.get_all_channels(), guild__name='kitty kawk', name='kitty-memes')
 
     async def on_message(self, message):
         print(message.content)
