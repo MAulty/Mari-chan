@@ -3,7 +3,8 @@ import os
 import globals
 import birthdays
 import misc
-import redditgrab
+#import movies
+#import redditgrab
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -18,7 +19,6 @@ class MyClient(discord.Client):
 
         #Command dispatching
         params = SplitParams(message.content)
-        print(params)
         if len(params) > 0 and params[0] in globals.commands:
             await globals.commands[params[0]](params[1:], message)
 
@@ -46,4 +46,4 @@ def SplitParams(str):
     return params
 
 client = MyClient()
-client.run(os.environ["Mari-Chan-Key"])
+client.run(os.environ["MARI_CHAN_KEY"])

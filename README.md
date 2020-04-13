@@ -2,5 +2,7 @@
 A python based Discord bot
 
 # Dependencies
-discord.py
-jsonpickle
+discord.py<br/>
+jsonpickle<br/>
+pymongo<br/>
+redditgrab<br/>

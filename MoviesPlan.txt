@@ -1,0 +1,29 @@
+#POST
+!add-movie <title> ~<watch-link> ~<imdb-link>
+
+!add-movie-rating <title> <rating/10>
+!add-movie-link <title> ~<watch-link> ~<imdb-link>
+
+#GET
+!show-top-movies 5~<num-movies> 
+!show-recent-movies 5~<num-movies>
+
+!rand-movie 0~<min-rate> 10~<max-rate>
+
+!show-movie <title>
+
+!show-user-movies <@user>
+
+
+
+
+MOVIES
+    Title [k]
+    IMDB
+    WatchLink
+
+RATINGS
+    Movie [k]
+    UserRated [k]
+    Rating [k]
+
