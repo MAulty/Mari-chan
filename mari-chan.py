@@ -3,8 +3,8 @@ import os
 import globals
 import birthdays
 import misc
-#import movies
-#import redditgrab
+import movies
+import redditgrab
 
 class MyClient(discord.Client):
     async def on_ready(self):
